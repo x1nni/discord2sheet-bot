@@ -20,14 +20,14 @@ async def on_message(message):
 
     # Command to insert data to excel
     if message.content.startswith('!s '):
-        SPREADSHEET_ID = '2QkhiqSFomDLYYYQUt3LO_IuUu72qEtXsLDc4Blcf5dq' # Add ID here
-        RANGE_NAME = 'A1'
-        FIELDS = 2 # Amount of fields/cells
+        SPREADSHEET_ID = '14cUZVMU5tHUP7mFyjSX9-28VxuO3hHFUSoVwegG_PXs' # Add ID here
+        RANGE_NAME = 'A4'
+        FIELDS = 4 # Amount of fields/cells
 
         # Restrict the command to a role
         # Change REQUIREDROLE to a role id or None
-        REQUIREDROLE = None
-        if REQUIREDROLE is not None and discord.utils.get(message.author.roles, id=int(REQUIREDROLE)) is None:
+        REQUIREDROLE = 644359841200078861
+        if REQUIREDROLE is not None and discord.utils.get(message.author.roles, id=int(644359841200078861)) is None:
             await message.channel.send('You don\'t have the required role!')
             return
     
