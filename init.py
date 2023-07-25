@@ -6,7 +6,7 @@ import discord
 
 from gsheet import *
 
-client = discord.Client()
+client = discord.Client(intents=discord.Intents.all())
 sheet = gsheet()
 
 @client.event
@@ -19,7 +19,7 @@ async def on_message(message):
         return
 
     # Command to insert data to excel
-    if message.content.startswith('!s '):
+    if message.content.startswith('-send'):
         SPREADSHEET_ID = '14cUZVMU5tHUP7mFyjSX9-28VxuO3hHFUSoVwegG_PXs' # Add ID here
         RANGE_NAME = 'A4'
         FIELDS = 4 # Amount of fields/cells
@@ -50,7 +50,9 @@ async def on_message(message):
         for muser in message.mentions:
             if muser.id == client.user.id:
                 if any(word in message.content for word in ['whois','who is','Help','help','info']):
-                    await message.channel.send('This bot was made by hugonun(https://github.com/hugonun/).\nSource code: https://github.com/hugonun/discord2sheet-bot')
+                    await message.channel.send('This bot was made by hugonun(https://github.com/hugonun/) and modified by x1nni(https://github.com/x1nni).\nSource code: https://github.com/x1nni/discord2sheet-bot')
 
-
-client.run('') # Add bot token here
+# Add bot token from token.txt
+tokenreader = open('token.txt')
+token = str(tokenreader.read())
+client.run(token)
