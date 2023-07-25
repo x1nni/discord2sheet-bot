@@ -5,6 +5,7 @@
 import discord
 
 from gsheet import *
+from datetime import date
 
 client = discord.Client(intents=discord.Intents.all())
 sheet = gsheet()
@@ -20,14 +21,14 @@ async def on_message(message):
 
     # Command to insert data to excel
     if message.content.startswith('-send'):
-        SPREADSHEET_ID = '14cUZVMU5tHUP7mFyjSX9-28VxuO3hHFUSoVwegG_PXs' # Add ID here
-        RANGE_NAME = 'A4'
+        SPREADSHEET_ID = 'SHEETID' # Add ID here
+        RANGE_NAME = 'A1'
         FIELDS = 4 # Amount of fields/cells
 
         # Restrict the command to a role
         # Change REQUIREDROLE to a role id or None
-        REQUIREDROLE = 644359841200078861
-        if REQUIREDROLE is not None and discord.utils.get(message.author.roles, id=int(644359841200078861)) is None:
+        REQUIREDROLE = 00000000000000
+        if REQUIREDROLE is not None and discord.utils.get(message.author.roles, id=int(000000000000000)) is None:
             await message.channel.send('You don\'t have the required role!')
             return
     
@@ -37,7 +38,7 @@ async def on_message(message):
         if len(result) == FIELDS:
             # Add
             print(message.created_at)
-            DATA = [message.author.name] + [str(message.author.id)] + [str(message.created_at)] + result
+            DATA = result + [str(date.today())]
             sheet.add(SPREADSHEET_ID, RANGE_NAME, DATA)
             await message.channel.send('Your data has been successfully submitted!')
         else:
@@ -50,7 +51,10 @@ async def on_message(message):
         for muser in message.mentions:
             if muser.id == client.user.id:
                 if any(word in message.content for word in ['whois','who is','Help','help','info']):
-                    await message.channel.send('This bot was made by hugonun(https://github.com/hugonun/) and modified by x1nni(https://github.com/x1nni).\nSource code: https://github.com/x1nni/discord2sheet-bot')
+                    await message.channel.send('This bot was made by hugonun(https://github.com/hugonun/) and modified by x1nni(https://github.com/x1nni).\nSource code: https://github.com/x1nni/discord2sheet-bot\nCommands:\n-send <username> <id> <reason>: Add DNU entry.')
+
+    if message.content.startswith('-help'):
+        await message.channel.send('This bot was made by hugonun(https://github.com/hugonun/) and modified by x1nni(https://github.com/x1nni).\nSource code: https://github.com/x1nni/discord2sheet-bot\nCommands:\n-send <username> <id> <reason>: Add DNU entry.')
 
 # Add bot token from token.txt
 tokenreader = open('token.txt')
