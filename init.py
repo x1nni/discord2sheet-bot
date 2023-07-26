@@ -26,8 +26,8 @@ async def on_ready():
 @app_commands.describe(username = "Username", uid = "Numerical ID #", reason = "Reason")
 @app_commands.checks.has_role("Moderator")
 async def dnu(interaction: discord.Interaction, username: str, uid: str, reason: str):
-    SPREADSHEET_ID = 'google spreadsheet id here' # Add ID here
-    RANGE_NAME = 'A1'
+    SPREADSHEET_ID = '1rEciYi6zQxjlQpCfOJQeaxeXKEICJz-jIhbgw8vvNhc' # Add ID here
+    RANGE_NAME = 'A214'
     DATA = [str(username),str(uid),str(reason),str(date.today())]
     print(DATA)
     sheet.add(SPREADSHEET_ID, RANGE_NAME, DATA)
