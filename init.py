@@ -34,16 +34,16 @@ async def on_message(message):
     
         # Code
         msg = message.content[5:]
-        result = [x.strip() for x in msg.split(' ')]
+        result = [x.strip() for x in msg.split(',')]
         if len(result) == FIELDS:
             # Add
-            print(message.created_at, message.author, message.content[3:])
+            print(message.created_at, message.author, message.content[5:])
             DATA = result + [str(date.today())]
             sheet.add(SPREADSHEET_ID, RANGE_NAME, DATA)
             await message.channel.send('Your entry has been successfully submitted to the DNU!')
         else:
             # Needs more/less fields
-            await message.channel.send('Error: You need to add {0} fields, meaning it can only have {1} space. Required fields: Username, ID, Reason'.format(FIELDS,FIELDS-1))
+            await message.channel.send('Error: You need to add {0} fields, meaning it can only have {1} comma. Required fields: Username, ID, Reason'.format(FIELDS,FIELDS-1))
     
     # Whois
     # Please dont remove the copyright and github repo
@@ -51,10 +51,10 @@ async def on_message(message):
         for muser in message.mentions:
             if muser.id == client.user.id:
                 if any(word in message.content for word in ['whois','who is','Help','help','info']):
-                    await message.channel.send('This bot was made by hugonun(https://github.com/hugonun/) and modified by x1nni(https://github.com/x1nni).\nSource code: https://github.com/x1nni/discord2sheet-bot\nCommands:\n-send <username> <id> <reason>: Add DNU entry.')
+                    await message.channel.send('This bot was made by hugonun(https://github.com/hugonun/) and modified by x1nni(https://github.com/x1nni).\nSource code: https://github.com/x1nni/discord2sheet-bot\nCommands:\n-dnu <username>, <id>, <reason>: Add DNU entry.\n-help: Display help.')
 
     if message.content.startswith('-help'):
-        await message.channel.send('This bot was made by hugonun(https://github.com/hugonun/) and modified by x1nni(https://github.com/x1nni).\nSource code: https://github.com/x1nni/discord2sheet-bot\nCommands:\n-send <username> <id> <reason>: Add DNU entry.')
+        await message.channel.send('This bot was made by hugonun(https://github.com/hugonun/) and modified by x1nni(https://github.com/x1nni).\nSource code: https://github.com/x1nni/discord2sheet-bot\nCommands:\n-dnu <username>, <id>, <reason>: Add DNU entry.\n-help: Display help.')
 
 # Add bot token from token.txt
 tokenreader = open('token.txt')
