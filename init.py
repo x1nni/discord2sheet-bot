@@ -21,14 +21,14 @@ async def on_message(message):
 
     # Command to insert data to excel
     if message.content.startswith('-send'):
-        SPREADSHEET_ID = 'SHEETID' # Add ID here
-        RANGE_NAME = 'A1'
-        FIELDS = 4 # Amount of fields/cells
+        SPREADSHEET_ID = '1rEciYi6zQxjlQpCfOJQeaxeXKEICJz-jIhbgw8vvNhc' # Add ID here
+        RANGE_NAME = 'A214'
+        FIELDS = 3 # Amount of fields/cells
 
         # Restrict the command to a role
         # Change REQUIREDROLE to a role id or None
-        REQUIREDROLE = 00000000000000
-        if REQUIREDROLE is not None and discord.utils.get(message.author.roles, id=int(000000000000000)) is None:
+        REQUIREDROLE = 275412935931723777
+        if REQUIREDROLE is not None and discord.utils.get(message.author.roles, id=int(275412935931723777)) is None:
             await message.channel.send('You don\'t have the required role!')
             return
     
@@ -37,10 +37,10 @@ async def on_message(message):
         result = [x.strip() for x in msg.split(',')]
         if len(result) == FIELDS:
             # Add
-            print(message.created_at)
+            print(message.created_at, message.author, message.content[3:])
             DATA = result + [str(date.today())]
             sheet.add(SPREADSHEET_ID, RANGE_NAME, DATA)
-            await message.channel.send('Your data has been successfully submitted!')
+            await message.channel.send('Your entry has been successfully submitted to the DNU!')
         else:
             # Needs more/less fields
             await message.channel.send('Error: You need to add {0} fields, meaning it can only have {1} comma.'.format(FIELDS,FIELDS-1))
