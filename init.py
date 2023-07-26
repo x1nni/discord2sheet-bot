@@ -20,7 +20,7 @@ async def on_message(message):
         return
 
     # Command to insert data to excel
-    if message.content.startswith('-send'):
+    if message.content.startswith('-dnu '):
         SPREADSHEET_ID = '1rEciYi6zQxjlQpCfOJQeaxeXKEICJz-jIhbgw8vvNhc' # Add ID here
         RANGE_NAME = 'A214'
         FIELDS = 3 # Amount of fields/cells
@@ -33,8 +33,8 @@ async def on_message(message):
             return
     
         # Code
-        msg = message.content[3:]
-        result = [x.strip() for x in msg.split(',')]
+        msg = message.content[5:]
+        result = [x.strip() for x in msg.split(' ')]
         if len(result) == FIELDS:
             # Add
             print(message.created_at, message.author, message.content[3:])
@@ -43,7 +43,7 @@ async def on_message(message):
             await message.channel.send('Your entry has been successfully submitted to the DNU!')
         else:
             # Needs more/less fields
-            await message.channel.send('Error: You need to add {0} fields, meaning it can only have {1} comma.'.format(FIELDS,FIELDS-1))
+            await message.channel.send('Error: You need to add {0} fields, meaning it can only have {1} space. Required fields: Username, ID, Reason'.format(FIELDS,FIELDS-1))
     
     # Whois
     # Please dont remove the copyright and github repo
