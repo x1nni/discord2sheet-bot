@@ -64,14 +64,17 @@ class gsheet(object):
         foundRow = [0,0,0,0]
         for i in range(0,len(source)):
             j = source[i]
+            if len(j) < 2:
+                j.append("N/A")
             if j[1] == uid:
                 foundRow = j
                 break
             i = i + 1
         if foundRow == [0,0,0,0]:
             return "nope"
-        print(foundRow)
-        return foundRow 
+        while len(foundRow) < 4:
+            foundRow.append("N/A")
+        return foundRow
     
     def row(self,sheetid,row):
         sheet = self.service.spreadsheets()
@@ -83,4 +86,7 @@ class gsheet(object):
             return "nope"
         source = list(result.values())[2]
         print(source)
-        return source[0]
+        onlySource = source[0]
+        while len(onlySource) < 4:
+            onlySource.append("N/A")
+        return onlySource
