@@ -18,7 +18,7 @@ Username - UserID - Reason - Date
 ## Prerequisites
 - A Google Account with access to the sheet you wish to read/write to.
 - Python 3.10 or above. (untested with anything lower) ([Download here](https://www.python.org/))
-- The following python libraries (copy the command to install them): `pip install --upgrade discord google-api-python-client google-auth-oauthlib
+- The following python libraries (copy the command to install them): `pip install --upgrade discord google-api-python-client google-auth-oauthlib`
 ## Sheet Setup
 You may modify gsheet.py to account for any formatting you wish, but by default, the bot will look for values in the following order:
 
