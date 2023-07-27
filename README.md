@@ -1,49 +1,59 @@
 # discord2sheet-bot
 
-This bot allows users to submit messages directly to your Google Sheet.
+This bot allows users to submit and request messages directly to a Google Sheet. I have forked the code to implement reading data, and to move to slash commands.
+The context in which this fork is modified is that of a database of users that should not be unbanned, hence commands like /dnu. (Do not unban)
 
 Example:
 
-`!s Hello world, How are you today?`
+`/dnu x1nni 1 weed`
 
 Output:
 
-Username - UserID - Date - Field 1 - Field 2
+![Discord Confirmation](https://i.imgur.com/ZDzEPE1.png)
 
-![Google Sheet](https://i.imgur.com/MFx25Ik.png)
+Username - UserID - Reason - Date
 
-## How to set it up
+![Google Sheet](https://i.imgur.com/7uPTCwP.png)
 
-**Step 1:** Enable the API and download credentials.json for desktop app (not web). This can be done here: https://developers.google.com/workspace/guides/create-credentials
+## Prerequisites
+- A Google Account with access to the sheet you wish to read/write to.
+- Python 3.10 or above. (untested with anything lower) ([Download here](https://www.python.org/))
+- The following python libraries (copy the command to install them): `pip install --upgrade discord google-api-python-client google-auth-oauthlib
+## Sheet Setup
+You may modify gsheet.py to account for any formatting you wish, but by default, the bot will look for values in the following order:
 
-Make sure credentials.json is stored in the same directory as the bot.
+- A Column: Username
+- B Column: ID #
+- C Column: Reason
+- D Column: Timestamp
+  
+By default, the bot will read up to the first 1000 rows of the sheet, so the effective range out-of-the-box is A1:D1000.
 
-**Step 2:** Open init.py and change the following values(<>):
+## Bot Setup
 
-SPREADSHEET_ID = <> - The ID of the spreashsheet to store the data. It can be found on the URL once opened.
+### Step 1: Sheets API
+Enable the Google Sheets API in Google Cloud and download OAuth credentials json for a desktop app (not web). Find out how to do this [here.](https://developers.google.com/sheets/api/quickstart/python#enable_the_api)
+Rename the file you download to credentials.json and make sure it is stored in the same directory as the bot.
 
-FIELDS = <> - Amount of fields/cells that get stored. They are on the user's message seperated by comma (!s field1, field2,field 3)
+### Step 2: Discord Bot Token
+Visit the [Discord Developer Portal](https://discord.com/developers) and create a new application. Click the bot tab and do the following:
+- Uncheck 'Public Bot'
+- Under "Privileged Gateway Intents', check all of them.
+- Click Reset Token to get your token.
+Create a new file in the root of the bot directory called `token.txt` and paste your token in it.
 
-client.run('<>') - The token of the Discord bot.
+### Step 3: Customizations
+Open init.py and change the following values:
+`SPREADSHEET_ID = <>` - The ID of the spreadsheet to store the data. It can be found on the URL of the Sheet once opened.
 
-**Step 3:** Install Python dependencies
-
-If you haven't installed Python yet, download it [here](https://www.python.org/).
-
-Install discordpy: `pip install discord.py`
-
-Run the pip command listed here: https://developers.google.com/sheets/api/quickstart/python#step_2_install_the_google_client_library
-
-**Step 4:** Run the bot
-
+### Step 4: Run the bot!
+Run the bot by issuing the following command.
 `python init.py`
 
-------
-
-## Additional configutations
-
-REQUIREDROLE = <> - If you want to restrict the command to a specific role, insert here the role id. If not, insert `None`.
-
-RANGE_NAME = <> - Where the data should go in the spreadsheet. Default value is `A1`.
-
-DATA = <> - What data goes to the rows, seperated by `[]`. Example: `DATA = [result[0]] + [''] + [result[1]]`
+## Pterodactyl Egg
+If you're like me and want to host this on a Pterodactyl container in the cloud, I provide an egg for D2S that you can find at https://x1nni.xyz/egg-d2s.json.
+You will be required to run the bot at least once on your local machine in order to generate the `token.pickle` file needed to authenticate with the Sheets API.
+After it's installed, make sure you upload the following files to the `discord2sheet-bot` folder:
+- token.txt
+- token.pickle
+- credentials.json
