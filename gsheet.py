@@ -32,6 +32,7 @@ class gsheet(object):
                 pickle.dump(self.creds, token)
 
         self.service = build('sheets', 'v4', credentials=self.creds)
+
     def add(self,sheetid,sheetrange,ivalue):
         # Call the Sheets API
         sheet = self.service.spreadsheets()
@@ -44,3 +45,42 @@ class gsheet(object):
             spreadsheetId=sheetid, range=sheetrange,
             valueInputOption='RAW', body=body).execute()
         
+    def last(self,sheetid):
+        sheet = self.service.spreadsheets()
+        result = sheet.values().get(
+            spreadsheetId=sheetid, range="A1:D1000").execute()
+        print(result)
+        source = list(result.values())[2]
+        lastRow = source[len(source)-1]
+        print(lastRow)
+        return lastRow 
+    
+    def find(self,sheetid,uid):
+        sheet = self.service.spreadsheets()
+        result = sheet.values().get(
+            spreadsheetId=sheetid, range="A1:D1000").execute()
+        print(result)
+        source = list(result.values())[2]
+        foundRow = [0,0,0,0]
+        for i in range(0,len(source)):
+            j = source[i]
+            if j[1] == uid:
+                foundRow = j
+                break
+            i = i + 1
+        if foundRow == [0,0,0,0]:
+            return "nope"
+        print(foundRow)
+        return foundRow 
+    
+    def row(self,sheetid,row):
+        sheet = self.service.spreadsheets()
+        parseableRow = "A"+row+":D"+row
+        result = sheet.values().get(
+            spreadsheetId=sheetid, range=parseableRow).execute()
+        print(result)
+        if len(list(result.values())) < 3:
+            return "nope"
+        source = list(result.values())[2]
+        print(source)
+        return source[0]
