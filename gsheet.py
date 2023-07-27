@@ -64,6 +64,8 @@ class gsheet(object):
         foundRow = [0,0,0,0]
         for i in range(0,len(source)):
             j = source[i]
+            if len(j) < 2:
+                j.append("N/A")
             if j[1] == uid:
                 foundRow = j
                 break
