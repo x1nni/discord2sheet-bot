@@ -72,10 +72,13 @@ You will be required to delete the `token.pickle` file every week or so, and red
 1. Open the following file: `/home/container/.local/lib/python3.10/site-packages/google_auth_oauthlib/flow.py`
 2. 
 3. Press Ctrl+F and search for "localhost". Get to this set of variables here:
+
 ![](https://i.imgur.com/AsjFCvx.png)
 
 4. Edit the `host` and `bind_addr` variables. Set `bind_addr` to `0.0.0.0`, and `host` to the hostname of your server. It should look like this:
+
 ![](https://i.imgur.com/WVXhUKk.png)
+
 Save and exit.
 
 5. Generate a new OAuth `credentials.json` for a web app (not desktop). Find out how to do this [here.](https://developers.google.com/sheets/api/quickstart/python#enable_the_api)
