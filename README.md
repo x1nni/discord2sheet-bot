@@ -32,7 +32,7 @@ By default, the bot will read up to the first 1000 rows of the sheet, so the eff
 ## Bot Setup
 
 ### Step 1: Sheets API
-Enable the Google Sheets API in Google Cloud and download OAuth credentials json for a desktop app (not web). Find out how to do this [here.](https://developers.google.com/sheets/api/quickstart/python#enable_the_api)
+Enable the Google Sheets API in Google Cloud and download the OAuth credentials json for a desktop app (not web). Find out how to do this [here.](https://developers.google.com/sheets/api/quickstart/python#enable_the_api)
 Rename the file you download to credentials.json and make sure it is stored in the same directory as the bot.
 
 ### Step 2: Discord Bot Token
@@ -52,8 +52,31 @@ Run the bot by issuing the following command.
 
 ## Pterodactyl Egg
 If you're like me and want to host this on a Pterodactyl container in the cloud, I provide an egg for D2S that you can find at https://x1nni.xyz/egg-d2s.json.
-You will be required to run the bot at least once on your local machine in order to generate the `token.pickle` file needed to authenticate with the Sheets API.
-After it's installed, make sure you upload the following files to the `discord2sheet-bot` folder:
-- token.txt
-- token.pickle
-- credentials.json
+In order to properly authenticate with the Sheets API, you can either:
+1. Run the bot on your local machine every week or so to generate a new token, and upload the token to the container manually (very secure but tedious)
+2. Edit the hostname for the redirect URI so you can generate the token from the Ptero console (questionable security, much more convenient)
+
+### Option 1: Local Authentication
+You will be required to run the bot locally once every week or so on your local machine in order to generate the `token.pickle` file needed to authenticate with the Sheets API.
+After the initial installation, make sure you upload the following files to the `discord2sheet-bot` folder:
+
+- `token.txt`
+- `token.pickle`
+- `credentials.json`
+
+On every subsequent reauth, you must only upload `token.pickle`.
+
+### Option 2: Remote Authentication
+You will be required to delete the `token.pickle` file every week or so, and redo the authentication remotely through your browser. Getting this to work requires:
+
+- Port 8080 to be bound to your container
+- OAuth `credentials.json` for a web app (not desktop). Find out how to do this [here](https://developers.google.com/sheets/api/quickstart/python#enable_the_api)
+
+When generating your `credentials.json`, specify the Redirect URI as the hostname or IP address of your server like this: `http://your.ip.or.host.here:8080`
+After the initial installation, make sure you upload the following files to the `discord2sheet-bot` folder:
+
+- `token.txt`
+- `credentials.json`
+
+On the first run, you should be presented with a link to authenticate with Google. Once authenticated, you should be redirected to the host you specified in the Redirect URI, and the bot should start.
+Every week or so, you will be required to delete the generated `token.pickle` file and restart the bot. You'll be given another link to follow to reauthenticate.
