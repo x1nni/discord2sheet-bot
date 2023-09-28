@@ -67,13 +67,21 @@ After the initial installation, make sure you upload the following files to the 
 On every subsequent reauth, you must only upload `token.pickle`.
 
 ### Option 2: Remote Authentication
-You will be required to delete the `token.pickle` file every week or so, and redo the authentication remotely through your browser. Getting this to work requires:
+You will be required to delete the `token.pickle` file every week or so, and redo the authentication remotely through your browser.1. 
 
-- Port 8080 to be bound to your container
-- OAuth `credentials.json` for a web app (not desktop). Find out how to do this [here](https://developers.google.com/sheets/api/quickstart/python#enable_the_api)
+1. Open the following file: `/home/container/.local/lib/python3.10/site-packages/google_auth_oauthlib/flow.py`
+2. 
+3. Press Ctrl+F and search for "localhost". Get to this set of variables here:
+![](https://i.imgur.com/AsjFCvx.png)
 
+4. Edit the `host` and `bind_addr` variables. Set `bind_addr` to `0.0.0.0`, and `host` to the hostname of your server. It should look like this:
+![](https://i.imgur.com/WVXhUKk.png)
+Save and exit.
+
+5. Generate a new OAuth `credentials.json` for a web app (not desktop). Find out how to do this [here.](https://developers.google.com/sheets/api/quickstart/python#enable_the_api)
 When generating your `credentials.json`, specify the Redirect URI as the hostname or IP address of your server like this: `http://your.ip.or.host.here:8080`
-After the initial installation, make sure you upload the following files to the `discord2sheet-bot` folder:
+
+6. After the initial installation, make sure you upload the following files to the `discord2sheet-bot` folder:
 
 - `token.txt`
 - `credentials.json`
